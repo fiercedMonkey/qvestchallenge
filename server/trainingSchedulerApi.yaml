@@ -1,0 +1,203 @@
+openapi: 3.0.0
+info:
+  version: '1'
+  title: 'Coding Challenge'
+  description: 'Coding Challenge Schulungsanbieter Qvest'
+paths:
+  /training/:
+    get:
+      summary: Get training data
+      parameters:
+        - in: query
+          name: start
+          description: Startdate
+          required: false
+          schema:
+            type: number
+        - in: query
+          name: end
+          description: Enddate
+          required: false
+          schema:
+            type: number
+      responses:
+        '200':
+          description: OK
+          content:
+            applicatiion/json:
+              schema:
+                $ref: '#/components/schemas/Training'
+    post:
+      summary: Add a new training
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Training'
+      responses:
+        '201':
+          description: Created
+  /training/{id}/:
+    parameters:
+      - name: id
+        in: path
+        description: TrainingId
+        required: true
+        schema:
+          type: number
+    get:
+      summary: Get a specific training entry
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Training'
+    put:
+      summary: Edit a training entry
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Training'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Training'
+  /appointment:
+    get:
+      summary: Get all appointments
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Appointment'
+    post:
+      summary: Add a new appointment
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Appointment'
+      responses:
+        '201':
+          description: Created
+  /appointment/{id}/:
+    parameters:
+      - name: id
+        in: path
+        description: TrainingId
+        required: true
+        schema:
+          type: number
+    get:
+      summary: Get a specific appointment entry
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Appointment'
+    put:
+      summary: Edit an appointment entry
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Appointment'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Appointment'
+  /lecturer:
+    get:
+      summary: Get all lecturers
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lecturer'
+    post:
+      summary: Add a new lecturer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                firstName:
+                  type: string
+                lastName:
+                  type: string
+              required:
+                - firstName
+                - lastName
+      responses:
+        '201':
+          description: Created
+
+servers:
+  - description: Local Dev Instance
+    url: https://localhost:3000
+components:
+  schemas:
+    Training:
+      type: object
+      properties:
+        id:
+          type: number
+          format: uuid
+        name:
+          type: string
+        description:
+          type: string
+        lecturer:
+          $ref: '#/components/schemas/Lecturer/properties/id'
+        price:
+          type: string
+        updatedAt:
+          type: number
+        createdAt:
+          type: number
+    Lecturer:
+      type: object
+      properties:
+        id:
+          type: number
+          format: uuid
+        firstName:
+          type: string
+        lastName:
+          type: string
+        updatedAt:
+          type: number
+        createdAt:
+          type: number
+    Appointment:
+      type: object
+      properties:
+        id:
+          type: number
+          format: uuid
+        training:
+          $ref: '#/components/schemas/Training/properties/id'
+        startDate:
+          type: number
+        endDate:
+          type: number
+        updatedAt:
+          type: number
+        createdAt:
+          type: number

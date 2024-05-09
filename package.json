@@ -1,0 +1,14 @@
+{
+  "name": "trainingscheduler",
+  "version": "1.0.0",
+  "description": "Qvest Coding Challenge",
+  "scripts": {
+    "install": "cd client && npm install && cd ../server && npm install",
+    "start": "concurrently \"npm run start:server\" \"npm run start:client\"",
+    "start:server": "cd server && npm run server",
+    "start:client": "cd client && npm run build && npm run start"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
